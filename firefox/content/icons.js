@@ -8,17 +8,13 @@ function loadIcons() {
     // icon css
     var head = document.getElementsByTagName('HEAD')[0];
     var link = document.createElement('style');
-    link.innerHTML =
-        ".digi-icon-calendar:before {background-image:url(" + browser.runtime.getURL("icons/calendar.svg") + ")}" +
-        ".digi-icon-dashboard:before {background-image:url(" + browser.runtime.getURL("icons/dashboard.svg") + ")}" +
-        ".digi-icon-register:before {background-image:url(" + browser.runtime.getURL("icons/register.svg") + ")}" +
-        ".digi-icon-semester:before {background-image:url(" + browser.runtime.getURL("icons/semester.svg") + ")}" +
-        ".digi-icon-subjects:before {background-image:url(" + browser.runtime.getURL("icons/subjects.svg") + ")}" +
-        ".digi-icon-absences:before {background-image:url(" + browser.runtime.getURL("icons/absences.svg") + ")}" +
-        ".digi-icon-homework:before {background-image:url(" + browser.runtime.getURL("icons/homework.svg") + ")}" +
-        ".digi-icon-messages:before {background-image:url(" + browser.runtime.getURL("icons/messages.svg") + ")}" +
-        ".digi-icon-course:before {background-image:url(" + browser.runtime.getURL("icons/course.svg") + ")}" +
-        ".digi-icon-certificate:before {background-image:url(" + browser.runtime.getURL("icons/certificate.svg") + ")}"
+
+    var names = ["calendar", "dashboard", "register", "semester", "subjects", "absences", "homework", "messages", "course", "certificate"]
+    
+    for (const name1 of names) {
+        link.innerHTML += `.digi-icon-${name1}:before { background-image:url(${browser.runtime.getURL(`icons/${name1}.svg`)}) }`;
+    }
+
     head.appendChild(link);
 
     // add icon classes to elements
@@ -26,18 +22,15 @@ function loadIcons() {
     // ignore first and last because profile and logout get no icon
     for (let i = 1; i < items.length-1; i++) {
         items[i].classList.add("item-icon");
-        if (items[i].getAttribute("href").includes("dashboard")) items[i].classList.add("digi-icon-dashboard");
-        if (items[i].getAttribute("href").includes("absences")) items[i].classList.add("digi-icon-absences");
-        if (items[i].getAttribute("href").includes("calendar")) items[i].classList.add("digi-icon-calendar");
-        if (items[i].getAttribute("href").includes("homework")) items[i].classList.add("digi-icon-homework");
-        if (items[i].getAttribute("href").includes("subjects")) items[i].classList.add("digi-icon-subjects");
-        if (items[i].getAttribute("href").includes("course")) items[i].classList.add("digi-icon-course");
-        if (items[i].getAttribute("href").includes("register")) items[i].classList.add("digi-icon-register");
-        if (items[i].getAttribute("href").includes("certificate")) items[i].classList.add("digi-icon-certificate");
-        if (items[i].getAttribute("href").includes("semester")) items[i].classList.add("digi-icon-semester");
-        if (items[i].getAttribute("href").includes("message")) {
-            items[i].classList.add("digi-icon-messages");
-            items[i].classList.remove("item-icon-messages");
+        for (const name1 of names) {
+            if (!items[i].getAttribute("href").includes("message")) {
+                if (items[i].getAttribute("href").includes(name1)) {
+                    items[i].classList.add(`digi-icon-${name1}`);
+                }
+            } else {
+                items[i].classList.add("digi-icon-messages");
+                items[i].classList.remove("item-icon-messages");
+            }
         }
     }
 }

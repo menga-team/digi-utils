@@ -11,11 +11,20 @@ var digi_settings = {
     antiafk: true,
     report: true,
     login: false,
-    icons: true
+    icons: true,
+    logindata: {
+        username: "",
+        password: ""
+    }
 }
 function checkStoredSettings(storedSettings) {
     if (!storedSettings.digi_settings) {
         browser.storage.local.set({digi_settings});
+    }
+    for (const item in storedSettings.digi_settings) {
+        if (!item in digi_settings) {
+            browser.storage.local.set({digi_settings});
+        }
     }
 }
 const gettingStoredSettings = browser.storage.local.get();

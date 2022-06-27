@@ -4,13 +4,23 @@ console.log("digi-utils> background.js loaded")
 var digi_settings = {
     dark: true,
     average: true,
-    religion: true,
+    antiafk: true,
     report: true,
-    login: false
+    login: false,
+    icons: true,
+    logindata: {
+        username: "",
+        password: ""
+    }
 }
 function checkStoredSettings(storedSettings) {
     if (!storedSettings.digi_settings) {
         chrome.storage.local.set({digi_settings});
+    }
+    for (const item in storedSettings.digi_settings) {
+        if (!item in digi_settings) {
+            chrome.storage.local.set({digi_settings});
+        }
     }
 }
 chrome.storage.local.get(checkStoredSettings);
